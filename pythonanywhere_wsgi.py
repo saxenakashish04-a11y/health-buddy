@@ -1,11 +1,10 @@
 # This file is for PythonAnywhere deployment
-# Place this file in your home directory or web app directory
+# WSGI configuration for FastAPI
 
 import sys
 import os
 
 # Add your project directory to the path
-# Replace 'yourusername' with your PythonAnywhere username
 project_dir = os.path.expanduser('~/health-buddy')
 if project_dir not in sys.path:
     sys.path.insert(0, project_dir)
@@ -15,7 +14,8 @@ os.chdir(project_dir)
 
 # Import the FastAPI app
 from main import app
+from asgiref.wsgi import WsgiToAsgi
 
-# PythonAnywhere expects 'application' variable
-application = app
+# Convert ASGI app to WSGI for PythonAnywhere
+application = WsgiToAsgi(app)
 

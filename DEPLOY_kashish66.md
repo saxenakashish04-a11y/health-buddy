@@ -31,7 +31,7 @@ You should see your files listed!
 Run this command:
 
 ```bash
-pip3.10 install --user fastapi uvicorn[standard] pydantic
+pip3.10 install --user fastapi uvicorn[standard] pydantic asgiref
 ```
 
 Wait for it to finish installing (may take 1-2 minutes).
@@ -67,7 +67,10 @@ if project_dir not in sys.path:
 os.chdir(project_dir)
 
 from main import app
-application = app
+from asgiref.wsgi import WsgiToAsgi
+
+# Convert ASGI app to WSGI for PythonAnywhere
+application = WsgiToAsgi(app)
 ```
 
 5. Click **"Save"** button
@@ -104,7 +107,7 @@ Open these URLs in your browser:
 **If you get an error:**
 1. Go to **"Web"** tab → **"Error log"** to see what went wrong
 2. Common issues:
-   - **Module not found:** Run `pip3.10 install --user fastapi uvicorn[standard] pydantic` again
+   - **Module not found:** Run `pip3.10 install --user fastapi uvicorn[standard] pydantic asgiref` again
    - **Import error:** Check that WSGI file path is correct
    - **Port error:** Make sure you're using Manual configuration, not Flask
 
